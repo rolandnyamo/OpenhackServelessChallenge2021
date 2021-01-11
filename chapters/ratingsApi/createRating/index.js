@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
 
 module.exports = async function (context, req) {
     context.log('Creating a rating.');
@@ -7,8 +8,8 @@ module.exports = async function (context, req) {
 
     let payload = req.body, payloadValid = false;
 
-    if(!(payload.userId && payload.productId && payload.locationName && payload.rating && payload.userNotes)){
-        payloadValid = false;
+    if(payload.userId && payload.productId && payload.locationName && payload.rating && payload.userNotes){
+        payloadValid = true;
     }
 
     // generate uuid
@@ -22,7 +23,7 @@ module.exports = async function (context, req) {
 
     context.res = {
         status: payloadValid ? 200 : 400, /* Defaults to 200 */
-        body: payloadValid ? JSON.stringify(responseMessage) : responseMessage,
+        body: responseMessage,
         headers: {
             'Content-Type': 'application/json',
         }
