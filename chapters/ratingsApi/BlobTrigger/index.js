@@ -18,13 +18,13 @@ module.exports = async function (context, myBlob) {
     context.log(context.bindings.inputTable)
 
     let i = 1;
+    context.bindings.outputTable = []
     for await (const blob of containerClient.listBlobsFlat()) {
     //   context.log(`Blob ${i++}: ${blob.name}`);
 
-      let str = blob.name, tag = str.match(/(.+)-(.+)/);
-      context.bindings.outputTable = []
+      let str = blob.name, tag = str.split("-");
 
-    //   context.log(tag)
+      context.log(tag)
       try {
         context.bindings.outputTable.push({
             PartitionKey: tag[0],
