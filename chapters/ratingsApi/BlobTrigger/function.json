@@ -6,6 +6,21 @@
       "direction": "in",
       "path": "orders/{name}.csv",
       "connection": "svlessbatch_STORAGE"
+    },
+    {
+      "type": "table",
+      "direction": "in",
+      "name": "inputTable",
+      "tableName": "orders",
+      "take": "100",
+      "connection": "svlessbatch_STORAGE"
+    },
+    {
+      "type": "table",
+      "direction": "out",
+      "name": "outputTable",
+      "tableName": "orders",
+      "connection": "svlessbatch_STORAGE"
     }
   ]
 }
