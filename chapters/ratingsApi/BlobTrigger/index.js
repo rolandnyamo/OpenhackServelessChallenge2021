@@ -14,9 +14,28 @@ module.exports = async function (context, myBlob) {
 
     let i = 1;
     for await (const blob of containerClient.listBlobsFlat()) {
-      console.log(`Blob ${i++}: ${blob.name}`);
+      context.log(`Blob ${i++}: ${blob.name}`);
     }
 
     // for each blob:
     // add table item: partition key: prefix, rowkey: suffix, url: fullBlobUrl
 };
+
+async function deleteBlob(prefix){
+
+    return
+}
+
+async function sendForProcessing(items){
+
+    // send to the API endpoint for processing
+
+    return
+}
+
+async function deleteTableEntry(entry){
+
+    // delete a certain partition key
+
+    return
+}
