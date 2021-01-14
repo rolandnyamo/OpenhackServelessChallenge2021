@@ -79,12 +79,6 @@ async function cleanTableItems(itemList, context){
                 orderLineItemsCSVUrl: `${obj[PK].OrderLineItems.url}`,
                 productInformationCSVUrl: `${obj[PK].ProductInformation.url}`
             })
-            // {
-            // "orderHeaderDetailsCSVUrl": "https://soh.blob.core.windows.net/six/XXXXXXXXXXXXXX-OrderHeaderDetails.csv",
-            // "orderLineItemsCSVUrl": "https://soh.blob.core.windows.net/six/XXXXXXXXXXXXXX-OrderLineItems.csv",
-            // "productInformationCSVUrl": "https://soh.blob.core.windows.net/six/XXXXXXXXXXXXXX-ProductInformation.csv"
-            // }
-            context.log(obj[PK])
             await sendForProcessing({
                 orderHeaderDetailsCSVUrl: `${obj[PK].OrderHeaderDetails.url}`,
                 orderLineItemsCSVUrl: `${obj[PK].OrderLineItems.url}`,
