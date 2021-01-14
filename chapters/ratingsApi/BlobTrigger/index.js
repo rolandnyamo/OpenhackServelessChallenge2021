@@ -71,14 +71,14 @@ async function cleanTableItems(itemList, context){
 
         // check if this object is complete
         context.log(obj[PK])
-        context.log({
-            orderHeaderDetailsCSVUrl: `${obj[PK].OrderHeaderDetails.url}`,
-            orderLineItemsCSVUrl: `${obj[PK].OrderLineItems.url}`,
-            productInformationCSVUrl: `${obj[PK].ProductInformation.url}`
-        })
 
         if("OrderHeaderDetails" in obj[PK] && "OrderLineItems" in obj[PK] && "ProductInformation" in obj[PK]){
             
+            context.log({
+                orderHeaderDetailsCSVUrl: `${obj[PK].OrderHeaderDetails.url}`,
+                orderLineItemsCSVUrl: `${obj[PK].OrderLineItems.url}`,
+                productInformationCSVUrl: `${obj[PK].ProductInformation.url}`
+            })
             // {
             // "orderHeaderDetailsCSVUrl": "https://soh.blob.core.windows.net/six/XXXXXXXXXXXXXX-OrderHeaderDetails.csv",
             // "orderLineItemsCSVUrl": "https://soh.blob.core.windows.net/six/XXXXXXXXXXXXXX-OrderLineItems.csv",
