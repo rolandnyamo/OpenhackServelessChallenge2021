@@ -9,6 +9,7 @@ const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECT
 const containerClient = blobServiceClient.getContainerClient('orders');
 
 module.exports = async function (context, myBlob) {
+
     context.log("JavaScript blob trigger function processed blob \n Blob:", context.bindingData.blobTrigger, "\n Blob Size:", myBlob.length, "Bytes");
 
     let i = 1;
@@ -16,5 +17,6 @@ module.exports = async function (context, myBlob) {
       console.log(`Blob ${i++}: ${blob.name}`);
     }
 
-    context.log(myBlob);
+    // for each blob:
+    // add table item: partition key: prefix, rowkey: suffix, url: fullBlobUrl
 };
