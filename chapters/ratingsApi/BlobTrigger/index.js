@@ -7,7 +7,7 @@ require("dotenv").config();
 const STORAGE_CONNECTION_STRING = process.env.svlessbatch_STORAGE || "";
 // Note - Account connection string can only be used in node.
 const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
-const blobBatchClient = BlobBatchClient.fromConnectionString(STORAGE_CONNECTION_STRING);
+// const blobBatchClient = BlobBatchClient.fromConnectionString(STORAGE_CONNECTION_STRING); //<-- error, this isn't a function
 const containerClient = blobServiceClient.getContainerClient('orders');
 
 module.exports = async function (context, myBlob) {
