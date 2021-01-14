@@ -32,7 +32,7 @@ module.exports = async function (context, myBlob) {
             url: "https://svlessbatch.blob.core.windows.net/orders/" + blob.name
         });
       } catch (error) {
-          context.log(error)
+          context.log(`error adding ${tag[0]} to the table. probably already exists`)
       }
     }
 
