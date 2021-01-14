@@ -22,6 +22,7 @@ module.exports = async function (context, myBlob) {
     //   context.log(`Blob ${i++}: ${blob.name}`);
 
       let str = blob.name, tag = str.match(/(.+)-(.+)/);
+      context.bindings.outputTable = []
 
     //   context.log(tag)
       try {
