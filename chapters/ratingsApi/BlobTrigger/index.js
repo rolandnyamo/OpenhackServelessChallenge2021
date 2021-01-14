@@ -19,10 +19,11 @@ module.exports = async function (context, myBlob) {
 
     let i = 1;
     for await (const blob of containerClient.listBlobsFlat()) {
-      context.log(`Blob ${i++}: ${blob.name}`);
+    //   context.log(`Blob ${i++}: ${blob.name}`);
 
       let str = blob.name, tag = str.match(/(.+)-(.+)/);
 
+    //   context.log(tag)
       try {
         context.bindings.outputTable.push({
             PartitionKey: tag[0],
