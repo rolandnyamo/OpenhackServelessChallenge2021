@@ -1,0 +1,2 @@
+# OpenHack Serveless Challenge 2021
+![Deploy Node.js project to Azure Function App](https://github.com/rolandnyamo/OpenhackServelessChallenge2021/workflows/Deploy%20Node.js%20project%20to%20Azure%20Function%20App/badge.svg?branch=main)
