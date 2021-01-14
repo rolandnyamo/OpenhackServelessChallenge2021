@@ -31,7 +31,7 @@ module.exports = async function (context, myBlob) {
     // context.log("JavaScript blob trigger function processed blob \n Blob:", context.bindingData.blobTrigger, "\n Blob Size:", myBlob.length, "Bytes");
 
     // context.log('input table:')
-    cleanTableItems(context.bindings.inputTable)
+    await cleanTableItems(context.bindings.inputTable)
 
     context.bindings.outputTable = []
     for await (const blob of containerClient.listBlobsFlat()) {
