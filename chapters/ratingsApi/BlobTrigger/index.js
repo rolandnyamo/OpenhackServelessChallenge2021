@@ -31,7 +31,7 @@ module.exports = async function (context, myBlob) {
     // context.log("JavaScript blob trigger function processed blob \n Blob:", context.bindingData.blobTrigger, "\n Blob Size:", myBlob.length, "Bytes");
 
     // context.log('input table:')
-    await cleanTableItems(context.bindings.inputTable)
+    await cleanTableItems(context.bindings.inputTable, context)
 
     context.bindings.outputTable = []
     for await (const blob of containerClient.listBlobsFlat()) {
@@ -51,7 +51,7 @@ module.exports = async function (context, myBlob) {
     }
 };
 
-async function cleanTableItems(itemList){
+async function cleanTableItems(itemList, context){
 
     var obj = {}
 
@@ -98,13 +98,13 @@ async function cleanTableItems(itemList){
                 obj[PK].OrderHeaderDetails.url,
                 obj[PK].OrderLineItems.url,
                 obj[PK].ProductInformation.url
-        ])
+            ], context)
         }
 
     }
 }
 
-async function deleteBlob(list){
+async function deleteBlob(list, context){
 
     context.log('deleting')
     context.log(list)
@@ -119,7 +119,7 @@ async function deleteBlob(list){
     return
 }
 
-async function sendForProcessing({items, toDelete, storageDelete}){
+async function sendForProcessing(items, toDelete, storageDelete, context){
 
     // send to the API endpoint for processing
 
@@ -132,7 +132,7 @@ async function sendForProcessing({items, toDelete, storageDelete}){
         }
 
         // delete the blob too:
-        deleteBlob(storageDelete)
+        deleteBlob(storageDelete, context)
       })
       .catch(function (error) {
         context.log(error);
