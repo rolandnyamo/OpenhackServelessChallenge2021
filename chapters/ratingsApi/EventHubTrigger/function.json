@@ -15,7 +15,6 @@
       "connection": "ohsvless_SERVICEBUS",
       "name": "outputSbMsg",
       "queueName": "receipts",
-      "topicName": "processed_receipts"
     }
   ]
 }

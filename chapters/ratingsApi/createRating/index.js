@@ -1,5 +1,11 @@
 const { v4: uuidv4 } = require('uuid');
-const axios = require('axios');
+
+/**
+ * Sentiment Analysis setup
+ */
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const key = process.env.Sentiment_Key;
+const endpoint = process.env.Sentiment_Endpoint;
 
 module.exports = async function (context, req) {
     context.log('Creating a rating.');
@@ -19,7 +25,7 @@ module.exports = async function (context, req) {
 
     const responseMessage = !payloadValid
         ? "Invalid request body. Please review documentation."
-        : JSON.stringify(await createDBRecord(payload));
+        : JSON.stringify(await createDBRecord(payload, context));
 
     context.res = {
         status: payloadValid ? 200 : 400, /* Defaults to 200 */
@@ -42,7 +48,7 @@ async function getProduct(productId){
     return true
 }
 
-async function createDBRecord({id, userId, productId, locationName, userNotes, rating}){
+async function createDBRecord({id, userId, productId, locationName, userNotes, rating}, context){
     let userValid = await getUser(userId), productValid = await getProduct(productId), res;
 
     if(!(userValid && productValid)){ //user and/or productId is invalid
@@ -51,5 +57,16 @@ async function createDBRecord({id, userId, productId, locationName, userNotes, r
         }
     }
 
+    sentimentAnalysis([userNotes], context)
+
     return {id, userId, productId, locationName, userNotes, rating}
+}
+
+async function sentimentAnalysis(sentimentInput, context){
+
+    const textAnalyticsClient = new TextAnalyticsClient(endpoint,  new AzureKeyCredential(key));
+
+    const sentimentResult = await textAnalyticsClient.analyzeSentiment(sentimentInput);
+
+    context.log(JSON.stringify(sentimentResult))
 }
