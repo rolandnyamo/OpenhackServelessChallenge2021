@@ -8,6 +8,14 @@
       "connection": "ohsvrless_RootManageSharedAccessKey_EVENTHUB",
       "cardinality": "many",
       "consumerGroup": "$Default"
+    },
+    {
+      "type": "serviceBus",
+      "direction": "out",
+      "connection": "ohsvless_SERVICEBUS",
+      "name": "outputSbMsg",
+      "queueName": "receipts",
+      "topicName": "processed_receipts"
     }
   ]
 }
