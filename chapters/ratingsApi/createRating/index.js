@@ -56,17 +56,49 @@ async function createDBRecord({id, userId, productId, locationName, userNotes, r
             message: 'Invalid userId or productId'
         }
     }
+    let payload = {id, userId, productId, locationName, userNotes, rating}
 
-    await sentimentAnalysis([userNotes], context)
+    await sentimentAnalysis({sentimentInput:[userNotes], payload}, context)
 
-    return {id, userId, productId, locationName, userNotes, rating}
+    return payload
 }
 
-async function sentimentAnalysis(sentimentInput, context){
+// [
+//     {
+//         "id": "0",
+//         "warnings": [],
+//         "sentiment": "negative",
+//         "confidenceScores": {
+//             "positive": 0,
+//             "neutral": 0,
+//             "negative": 1
+//         },
+//         "sentences": [
+//             {
+//                 "text": "I hated everything about orange in this ice cream!",
+//                 "sentiment": "negative",
+//                 "confidenceScores": {
+//                     "positive": 0,
+//                     "neutral": 0,
+//                     "negative": 1
+//                 },
+//                 "offset": 0,
+//                 "length": 50
+//             }
+//         ]
+//     }
+// ]
+
+async function sentimentAnalysis({sentimentInput, payload}, context){
 
     const textAnalyticsClient = new TextAnalyticsClient(endpoint,  new AzureKeyCredential(key));
 
     const sentimentResult = await textAnalyticsClient.analyzeSentiment(sentimentInput);
+
+    if (sentimentResult && sentimentResult[0].confidenceScores.negative < 0.7) {
+        context.log.warn(`Negative sentiment detecteed for rating ` + payload.id )
+        context.log.error(`Negative sentiment detecteed for rating ` + payload.id)
+    }
 
     context.log(JSON.stringify(sentimentResult))
 }
