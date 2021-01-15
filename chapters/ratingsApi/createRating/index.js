@@ -57,7 +57,7 @@ async function createDBRecord({id, userId, productId, locationName, userNotes, r
         }
     }
 
-    sentimentAnalysis([userNotes], context)
+    await sentimentAnalysis([userNotes], context)
 
     return {id, userId, productId, locationName, userNotes, rating}
 }
