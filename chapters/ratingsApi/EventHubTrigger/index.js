@@ -1,5 +1,5 @@
 module.exports = async function (context, eventHubMessages) {
-    context.log(`Eventhub trigger function called.}`);
+    context.log(`Eventhub trigger function called.`);
     context.bindings.outputSbMsg = []
     for (let i = 0; i < eventHubMessages.length; i++) {
         const msg = cleanRecord(eventHubMessages[i], context);
@@ -33,7 +33,7 @@ function cleanRecord(payload, context){
     obj.totalCost = 0;
 
     for (let i = 0; i < payload.details.length; i++) {
-        const price = payload.details[i].totalCost;
+        const price = Number(payload.details[i].totalCost);
 
         obj.totalCost += price;        
     }
