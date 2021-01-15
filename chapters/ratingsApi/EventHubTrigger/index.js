@@ -2,7 +2,7 @@ module.exports = async function (context, eventHubMessages) {
     context.log(`Eventhub trigger function called.}`);
     context.bindings.outputSbMsg = []
     for (let i = 0; i < eventHubMessages.length; i++) {
-        const msg = cleanRecord(eventHubMessages[i]);
+        const msg = cleanRecord(eventHubMessages[i], context);
         msg !== null ? context.bindings.outputSbMsg.push(msg) : context.log("An error occured.")
     }
 };
