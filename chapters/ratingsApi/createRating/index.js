@@ -100,5 +100,5 @@ async function sentimentAnalysis({sentimentInput, payload}, context){
         context.log.error(`Negative sentiment detecteed for rating ` + payload.id)
     }
 
-    context.error(JSON.stringify(sentimentResult))
+    context.log.error(JSON.stringify(sentimentResult))
 }
