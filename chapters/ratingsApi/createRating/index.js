@@ -96,9 +96,8 @@ async function sentimentAnalysis({sentimentInput, payload}, context){
     const sentimentResult = await textAnalyticsClient.analyzeSentiment(sentimentInput);
 
     if (sentimentResult && sentimentResult[0].confidenceScores.negative < 0.7) {
-        context.log.warn(`Negative sentiment detecteed for rating ` + payload.id )
-        context.log.error(`Negative sentiment detecteed for rating ` + payload.id)
+        context.log.warn(`Negative sentiment detected for rating ` + payload.id )
     }
 
-    context.log.error(JSON.stringify(sentimentResult))
+    context.log(JSON.stringify(sentimentResult))
 }
