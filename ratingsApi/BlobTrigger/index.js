@@ -35,7 +35,7 @@ module.exports = async function (context, myBlob) {
 
     context.bindings.outputTable = []
     for await (const blob of containerClient.listBlobsFlat()) {
-    //   context.log(`Blob ${i++}: ${blob.name}`);
+      context.log(`Blob ${i++}: ${blob.name}`);
 
       let str = blob.name, tag = str.split("-");
 
@@ -47,6 +47,7 @@ module.exports = async function (context, myBlob) {
         });
       } catch (error) {
           context.log(`error adding https://svlessbatch.blob.core.windows.net/orders/${blob.name} to the table. probably already exists`)
+          context.log(error)
       }
     }
 };
