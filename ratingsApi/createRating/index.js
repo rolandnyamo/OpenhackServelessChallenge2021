@@ -21,7 +21,9 @@ module.exports = async function (context, req) {
     // generate uuid
     payload = { ...payload, id: `${uuidv4()}`}
     
-    context.log(payload)
+    // context.log(payload)
+
+    context.bindings.outputDocument = JSON.stringify(payload)
 
     const responseMessage = !payloadValid
         ? "Invalid request body. Please review documentation."
@@ -57,8 +59,6 @@ async function createDBRecord({id, userId, productId, locationName, userNotes, r
         }
     }
     let payload = {id, userId, productId, locationName, userNotes, rating}
-
-    context.bindings.outputDocument = JSON.stringify(payload)
 
     await sentimentAnalysis({sentimentInput:[userNotes], payload}, context)
 
@@ -97,9 +97,9 @@ async function sentimentAnalysis({sentimentInput, payload}, context){
 
     const sentimentResult = await textAnalyticsClient.analyzeSentiment(sentimentInput);
 
-    if (sentimentResult && sentimentResult[0].confidenceScores.negative < 0.7) {
+    if (sentimentResult && sentimentResult[0].confidenceScores.negative > 0.7) {
         context.log.warn(`Negative sentiment detected for rating ` + payload.id )
-    }
+    } else context.log(`Positive sentiment detected for rating ` + payload.id )
 
     context.log(JSON.stringify(sentimentResult))
 }

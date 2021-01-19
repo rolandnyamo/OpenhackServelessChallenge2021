@@ -22,7 +22,7 @@
       "collectionName": "ratings",
       "connectionStringSetting": "srlessratingsdb_DOCUMENTDB",
       "id": "{Query.ratingId}",
-      "partitionKey": "{Query.id}"
+      "partitionKey": "{Query.ratingId}"
     }
   ]
 }
