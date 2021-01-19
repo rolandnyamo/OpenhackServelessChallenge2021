@@ -56,6 +56,8 @@ async function cleanTableItems(itemList, context){
 
     var obj = {}
 
+    context.log(`cleaning table items ${JSON.stringify(itemList)}`)
+
     for (let i = 0; i < itemList.length; i++) {
         const PK = itemList[i].PartitionKey;
         const RK = itemList[i].RowKey.replace('.csv', '');
