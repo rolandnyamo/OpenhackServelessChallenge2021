@@ -1,7 +1,7 @@
-module.exports = async function (context, req) {
+module.exports = async function (context, req, ratings) {
     context.log('Getting all ratings from the database.');
 
-    const responseMessage = JSON.stringify(await getRatings());
+    const responseMessage = JSON.stringify(ratings);
 
     context.res = {
         status: 200, /* Defaults to 200 */

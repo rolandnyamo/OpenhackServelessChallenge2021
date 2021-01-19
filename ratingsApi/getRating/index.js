@@ -1,10 +1,10 @@
-module.exports = async function (context, req) {
+module.exports = async function (context, req, rating) {
     context.log('Getting rating.');
 
     const ratingId = (req.query.ratingId || null);
     const responseMessage = ratingId
         ? "Please provide a ratingId in query parameters."
-        : JSON.stringify(await getRating(ratingId));
+        : JSON.stringify(rating);
 
     context.res = {
         status: 200, /* Defaults to 200 */

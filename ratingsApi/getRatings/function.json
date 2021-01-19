@@ -13,6 +13,14 @@
       "type": "http",
       "direction": "out",
       "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "ratings",
+      "databaseName": "ratingsDB",
+      "collectionName": "ratings",
+      "connectionStringSetting": "srlessratingsdb_DOCUMENTDB"
     }
   ]
 }

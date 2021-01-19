@@ -58,6 +58,8 @@ async function createDBRecord({id, userId, productId, locationName, userNotes, r
     }
     let payload = {id, userId, productId, locationName, userNotes, rating}
 
+    context.bindings.outputDocument = JSON.stringify(payload)
+
     await sentimentAnalysis({sentimentInput:[userNotes], payload}, context)
 
     return payload

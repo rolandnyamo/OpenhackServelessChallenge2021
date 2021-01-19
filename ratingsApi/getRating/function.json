@@ -13,6 +13,16 @@
       "type": "http",
       "direction": "out",
       "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "rating",
+      "databaseName": "ratingsDB",
+      "collectionName": "ratings",
+      "connectionStringSetting": "srlessratingsdb_DOCUMENTDB",
+      "id": "{Query.ratingId}",
+      "partitionKey": "{Query.id}"
     }
   ]
 }
