@@ -35,7 +35,7 @@ module.exports = async function (context, myBlob) {
 
     context.bindings.outputTable = []
     for await (const blob of containerClient.listBlobsFlat()) {
-      context.log(`Blob ${i++}: ${blob.name}`);
+      context.log(`Blob: ${blob.name}`);
 
       let str = blob.name, tag = str.split("-");
 
