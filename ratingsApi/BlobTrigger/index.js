@@ -46,7 +46,7 @@ module.exports = async function (context, myBlob) {
             url: "https://svlessbatch.blob.core.windows.net/orders/" + blob.name
         });
       } catch (error) {
-          context.log(`error adding ${tag[0]} to the table. probably already exists`)
+          context.log(`error adding https://svlessbatch.blob.core.windows.net/orders/${blob.name} to the table. probably already exists`)
       }
     }
 };
@@ -60,19 +60,47 @@ async function cleanTableItems(itemList, context){
         const RK = itemList[i].RowKey.replace('.csv', '');
         const url = itemList[i].url;
         
-        // obj[PK] && obj[PK][RK] ? null : obj[PK] = { [RK]: RK, url } 
         if (obj[PK]) {
             if(!obj[PK][RK]){
+                context.log('found first item')
                 obj[PK][RK] = { url } 
             }
         } else {
             obj[PK] = { [RK]: { url } } 
         }
 
-        // check if this object is complete
-        context.log(obj[PK])
+        for (let j = 0; j < itemList.length; j++) {
+            const PK2 = itemList[j].PartitionKey;
+            const RK2 = itemList[j].RowKey.replace('.csv', '');
+            const url2 = itemList[j].url;
+
+            if(PK2 === PK){                
+                if(!obj[PK][RK2]){
+                    context.log('found second item')
+                    obj[PK][RK2] = { url: url2 } 
+                }
+            }
+
+            for (let k = 0; k < itemList.length; k++) {
+                const PK3 = itemList[k].PartitionKey;
+                const RK3 = itemList[k].RowKey.replace('.csv', '');
+                const url3 = itemList[k].url;
+    
+                if(PK3 === PK){                    
+                    if(!obj[PK][RK3]){
+                        context.log('found third item')
+                        obj[PK][RK3] = { url: url3 } 
+                    }
+                }
+                
+            }            
+        }
 
         if("OrderHeaderDetails" in obj[PK] && "OrderLineItems" in obj[PK] && "ProductInformation" in obj[PK]){
+
+            // check if this object is complete
+            context.log("found all 3 matches")
+            context.log(obj)
             
             context.log({
                 orderHeaderDetailsCSVUrl: `${obj[PK].OrderHeaderDetails.url}`,
@@ -116,13 +144,15 @@ async function deleteBlob(list, context){
 async function sendForProcessing(items, toDelete, storageDelete, context){
 
     // send to the API endpoint for processing
+    context.log("sending for processing")
 
     axios.post('https://serverlessohmanagementapi.trafficmanager.net/api/order/combineOrderContent', items)
       .then(function (response) {
         context.log(response);
 
         for (let i = 0; i < toDelete.length; i++) {
-            tableClient.deleteEntity(toDelete[i])       
+            tableClient.deleteEntity(toDelete[i])
+            context.log(`deleted ${toDelete[i]} from storage table`)       
         }
 
         // delete the blob too:
